@@ -1983,7 +1983,18 @@ function createSupabaseDb(){
   supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   authForm.addEventListener('submit',async function(event){event.preventDefault();authButton.disabled=true;authError.textContent='';var result=await supabaseClient.auth.signInWithPassword({email:$('#auth-email').value.trim(),password:$('#auth-password').value});if(result.error){authError.textContent=result.error.message;authButton.disabled=false;return}try{await startApp()}catch(err){showAuth(err.message||'Não foi possível carregar a loja.');authButton.disabled=false}});
   $('#supabase-logout').addEventListener('click',async function(){await supabaseClient.auth.signOut();showAuth('Sessão encerrada.')});
-  supabaseClient.auth.onAuthStateChange(function(event,session){if(event==='SIGNED_OUT'||!session)showAuth()});
+  supabaseClient.auth.onAuthStateChange(async function(event,session){
+  if(event==='PASSWORD_RECOVERY'){
+    var novaSenha=prompt('Digite a sua nova senha (mínimo 6 caracteres, com letras maiúsculas, minúsculas e números):');
+    if(novaSenha){
+      var res=await supabaseClient.auth.updateUser({password:novaSenha});
+      if(res.error){alert('Erro ao atualizar senha: '+res.error.message);}
+      else{alert('Senha atualizada com sucesso!');window.location.hash='';}
+    }
+  } else if(event==='SIGNED_OUT'||!session){
+    showAuth();
+  }
+});
   supabaseClient.auth.getSession().then(function(result){if(result.error){showAuth(result.error.message);return}if(result.data.session)startApp();else showAuth()}).catch(function(err){showAuth(err.message||'Não foi possível verificar a sessão.')});
 })();
 })();
