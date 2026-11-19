@@ -1,7 +1,7 @@
 <!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script></head><body>
 <title>Controle de Loja</title>
 <script>(function(){var tema='dark';try{var salvo=localStorage.getItem('jbstore-tema');if(salvo==='light'||salvo==='dark')tema=salvo}catch(e){}document.documentElement.setAttribute('data-theme',tema)})();</script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@600;700&display=swap">
 <style>
 /* Layout: cabeçalho fixo com abas; área de trabalho em tabelas densas; formulários em folha modal */
 :root{
@@ -432,6 +432,22 @@ nav button[aria-current="page"],.nav-menu>summary[aria-current="page"]{backgroun
 @media(max-width:1000px){.app-shell{grid-template-columns:225px minmax(0,1fr)}.sidebar{padding-left:11px;padding-right:11px}.topbar{padding-left:18px;padding-right:18px}}
 @media(max-width:760px){.app-shell{display:block}.sidebar{position:sticky;top:0;width:100%;height:auto;max-height:none;padding:8px 12px;background:linear-gradient(90deg,var(--side-1),var(--side-2));border-right:0;border-bottom:1px solid var(--side-line);gap:0}.sidebar .brand{display:flex;min-height:0;padding:0 0 8px}.sidebar .brand h1{display:none}#nav{flex-direction:row;align-items:center;overflow-x:auto;gap:4px;padding:0 0 2px}#nav>button,#nav>.nav-menu{width:auto;flex:0 0 auto}#nav>button{border-left:0;border-bottom:2px solid transparent;padding:8px 10px}#nav>button[aria-current="page"]{border-bottom-color:#8abaff;box-shadow:none}#nav>.nav-menu>summary{padding:8px 10px}.nav-menu{position:relative}.nav-menu>summary[aria-current="page"]{border-left-color:transparent;border-bottom:2px solid #8abaff;box-shadow:none}.nav-submenu{position:absolute;left:0;top:calc(100% + 2px);z-index:40;min-width:180px;margin:0;padding:5px;background:var(--side-2);border:1px solid var(--side-line);border-radius:8px;box-shadow:var(--shadow)}.side-stats{display:none}.workspace .topbar{top:0;min-height:56px;padding:8px 14px}.app-greeting{font-size:17px}.app-sub{display:none}.topbar-title .system-date{font-size:11px;padding:0 3px}.theme-toggle{padding:6px 8px}.theme-toggle-label,.brand-color-control>span{display:none}.brand-color-control input[type=color]{width:30px;height:28px}main{padding:18px 14px 42px}}
 @media(max-width:520px){.topbar-title .system-date{display:none}.topbar{gap:8px}.app-greeting{font-size:15px}.weather-summary{padding:4px 6px;gap:3px;font-size:11px}.weather-summary img{width:22px;height:22px}.weather-summary .weather-temp{font-size:12px}.avatar{display:none}}
+/* identidade: bronze e serifa */
+:root{--gold:#c9a063}
+.brand h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:31px;letter-spacing:.3px}
+.hero-dia{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:20px 28px;flex-wrap:wrap;padding:26px 28px;margin-bottom:4px;border-radius:12px;border:1px solid color-mix(in srgb,var(--gold) 34%,var(--line));background:
+  repeating-linear-gradient(135deg,color-mix(in srgb,var(--ink) 3.5%,transparent) 0 1px,transparent 1px 6px),
+  linear-gradient(120deg,color-mix(in srgb,var(--gold) 18%,var(--surface)),var(--surface) 62%)}
+.hero-dia h2{margin:0;max-width:22ch;font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(28px,3.6vw,40px);line-height:1.08;font-weight:700;color:var(--ink)}
+.hero-dia p{margin:8px 0 0;max-width:56ch;color:var(--muted)}
+.hero-acoes{display:flex;flex-wrap:wrap;gap:8px}
+.hero-acao{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;font-weight:500;cursor:pointer;transition:border-color .15s,background .15s}
+.hero-acao:hover{border-color:var(--gold)}
+.hero-acao.principal{background:var(--gold);border-color:var(--gold);color:#241a2a;font-weight:600}
+.hero-acao.principal:hover{background:#d8b377}
+.hero-acao .shortcut-key{margin:0}
+.kpi{position:relative}
+.kpi::before{content:"";position:absolute;left:14px;top:0;width:30px;height:2px;background:var(--gold);border-radius:0 0 2px 2px}
 /* polimento visual leve */
 html{scroll-behavior:smooth}
 .app-greeting{cursor:pointer}
@@ -441,9 +457,40 @@ html{scroll-behavior:smooth}
 .btn:focus-visible,.icon-btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.kpi{transition:none}.kpi:hover{transform:none}}
 </style>
-<style>.auth-screen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:var(--bg);color:var(--ink)}.auth-screen[hidden]{display:none}.auth-card{width:min(420px,100%);display:grid;gap:14px;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.auth-card h1{font-size:24px}.auth-card p{margin:0;color:var(--muted)}.auth-card .btn{justify-self:end;min-width:100px}</style>
+<style>
+.auth-screen{--noite:#17121b;--ameixa:#241a2a;--bronze:#c9a063;--bronze-esc:#8c5f2a;--marfim:#f4ecde;--tinta:#2a1f2e;--areia:#6b5d4d;
+  position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:24px 20px;overflow:auto;color:var(--tinta);font-family:var(--f-body);
+  background:
+    radial-gradient(60% 45% at 50% 18%,rgba(201,160,99,.20),transparent 70%),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.028) 0 1px,transparent 1px 5px),
+    repeating-linear-gradient(45deg,rgba(255,255,255,.018) 0 1px,transparent 1px 5px),
+    linear-gradient(180deg,#1d1522,var(--noite) 70%)}
+.auth-screen[hidden]{display:none}
+.auth-tag{position:relative;width:min(380px,100%);margin-top:150px;transform-origin:50% -150px;filter:drop-shadow(0 28px 38px rgba(0,0,0,.5));animation:etiqueta-balanco 1.7s cubic-bezier(.3,.6,.4,1) .15s both}
+.auth-tag::before{content:"";position:absolute;left:50%;top:-150px;width:2px;height:172px;transform:translateX(-50%);background:linear-gradient(180deg,#e2c28d,var(--bronze-esc))}
+.auth-card{position:relative;display:grid;gap:16px;padding:58px 32px 30px;background:linear-gradient(180deg,#f8f1e4,var(--marfim));
+  clip-path:polygon(30px 0,calc(100% - 30px) 0,100% 30px,100% 100%,0 100%,0 30px)}
+.auth-hole{position:absolute;top:18px;left:50%;width:16px;height:16px;transform:translateX(-50%);border-radius:50%;background:#1d1522;box-shadow:0 0 0 3px #d9bb86,inset 0 1px 3px rgba(0,0,0,.6)}
+.auth-logo{justify-self:center;width:76px;height:76px;border-radius:50%;object-fit:cover;border:1px solid #cdbd9f;background:#e9dec9}
+.auth-card h1{margin:0;text-align:center;font-family:'Cormorant Garamond',Georgia,serif;font-size:46px;line-height:1;font-weight:700;letter-spacing:.3px;color:var(--ameixa)}
+.auth-tagline{margin:-6px 0 6px;text-align:center;color:var(--areia);font-size:14px}
+.auth-card .fld{display:grid;gap:2px}
+.auth-card .fld span{color:var(--areia);font-size:13px;font-weight:500}
+.auth-card input{width:100%;padding:8px 2px;border:0;border-bottom:1.5px solid #bfb09a;border-radius:0;background:transparent;color:var(--tinta);font:inherit;font-size:16px;box-shadow:none}
+.auth-card input:focus{outline:none;border-bottom-color:var(--bronze-esc);box-shadow:0 1.5px 0 var(--bronze-esc)}
+.auth-card input:focus-visible{outline:2px solid var(--bronze-esc);outline-offset:4px;border-radius:2px}
+.auth-card .erros{margin:0;padding:0;background:none;border:0;color:#9b2c24;font-size:14px}
+.auth-card .erros:empty{display:none}
+.auth-card .btn{width:100%;margin-top:6px;padding:13px 16px;border-radius:3px;border:1px solid var(--ameixa);background:var(--ameixa);color:var(--marfim);font-weight:600;font-size:16px;letter-spacing:.3px;transition:background .2s,color .2s,border-color .2s}
+.auth-card .btn:hover:not(:disabled){background:var(--bronze);border-color:var(--bronze);color:var(--ameixa)}
+.auth-card .btn:focus-visible{outline:2px solid var(--bronze-esc);outline-offset:3px}
+.auth-card .btn:disabled{opacity:.6;cursor:default}
+@keyframes etiqueta-balanco{0%{opacity:0;transform:rotate(-7deg)}8%{opacity:1}30%{transform:rotate(3.2deg)}52%{transform:rotate(-1.6deg)}72%{transform:rotate(.7deg)}100%{opacity:1;transform:rotate(0)}}
+@media (max-height:640px){.auth-tag{margin-top:90px;transform-origin:50% -90px}.auth-tag::before{top:-90px;height:112px}}
+@media (prefers-reduced-motion:reduce){.auth-tag{animation:none}}
+</style>
 
-<div id="auth-screen" class="auth-screen"><form id="auth-form" class="auth-card"><h1>JB Store</h1><p>Acesse com o usuário criado no Supabase.</p><label class="fld"><span>E-mail</span><input id="auth-email" type="email" autocomplete="username" required></label><label class="fld"><span>Senha</span><input id="auth-password" type="password" autocomplete="current-password" required></label><div id="auth-error" class="erros" role="alert"></div><button id="auth-submit" class="btn" type="submit">Entrar</button></form></div><div class="app-shell" id="app-shell" hidden><aside class="sidebar"><div class="brand"><h1 id="brand-title">JB Store</h1><button type="button" id="brand-logo-button" class="brand-store-logo" data-tab="loja" aria-label="Minha loja: abrir cadastro dos dados da loja" title="Minha loja"><img id="brand-logo" alt=""></button></div><nav id="nav" aria-label="Seções"></nav><div id="side-stats" class="side-stats" aria-label="Resumo rápido"></div></aside>
+<div id="auth-screen" class="auth-screen"><div class="auth-tag"><form id="auth-form" class="auth-card"><span class="auth-hole" aria-hidden="true"></span><img id="auth-logo" class="auth-logo" alt="" width="76" height="76"><h1>JB Store</h1><p class="auth-tagline">Sua casa, seu estilo</p><label class="fld"><span>E-mail</span><input id="auth-email" type="email" autocomplete="username" required></label><label class="fld"><span>Senha</span><input id="auth-password" type="password" autocomplete="current-password" required></label><div id="auth-error" class="erros" role="alert"></div><button id="auth-submit" class="btn" type="submit">Entrar</button></form></div></div><div class="app-shell" id="app-shell" hidden><aside class="sidebar"><div class="brand"><h1 id="brand-title">JB Store</h1><button type="button" id="brand-logo-button" class="brand-store-logo" data-tab="loja" aria-label="Minha loja: abrir cadastro dos dados da loja" title="Minha loja"><img id="brand-logo" alt=""></button></div><nav id="nav" aria-label="Seções"></nav><div id="side-stats" class="side-stats" aria-label="Resumo rápido"></div></aside>
 <section class="workspace"><header class="topbar"><div class="topbar-title"><span id="system-date" class="system-date" aria-live="polite"></span><div id="app-greeting" class="app-greeting" aria-live="polite" title="Clique para alterar como o sistema chama você">Bom dia</div><div id="app-sub" class="app-sub">Acompanhe os números e os próximos compromissos da loja.</div></div><label class="quick-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="quick-search" type="search" placeholder="Busca rápida de estoque (Enter)" autocomplete="off" aria-label="Busca rápida de produto no estoque"></label><details id="weather-widget" class="weather-widget"><summary id="weather-summary" class="weather-summary" aria-label="Abrir previsão do tempo"><span id="weather-summary-text">Clima…</span></summary><div id="weather-panel" class="weather-panel" aria-live="polite"><h3>Previsão do tempo</h3><p class="weather-config-help">Carregando informações do clima…</p></div></details><label class="brand-color-control" title="Escolher cor da marca"><span>Cor da marca</span><input type="color" id="brand-color" value="#5669dc" aria-label="Escolher cor da marca"></label><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro"><span id="theme-toggle-icon" class="theme-toggle-icon" aria-hidden="true">☀</span><span id="theme-toggle-label" class="theme-toggle-label">Tema claro</span></button><button type="button" id="bell-btn" class="icon-btn" aria-label="Parcelas vencidas" title="Parcelas vencidas"></button><button type="button" id="avatar-btn" class="avatar" data-tab="loja" aria-label="Minha loja" title="Minha loja">D</button><button type="button" id="backup-btn" class="btn ghost sm" title="Baixar uma cópia dos dados">Backup</button><button type="button" id="supabase-logout" class="btn ghost sm">Sair</button></header>
 <main id="main"><div class="empty">Carregando…</div></main></section></div>
 <div id="modal" hidden></div>
@@ -635,6 +682,19 @@ function resumo(kind){
   return r;
 }
 
+function heroPainel(titulo,sub){
+  return '<section class="hero-dia"><div><h2>'+esc(titulo)+'</h2><p>'+esc(sub)+'</p></div><div class="hero-acoes" aria-label="Atalhos"><button type="button" class="hero-acao principal" data-atalho="F2">Nova venda <kbd class="shortcut-key">F2</kbd></button><button type="button" class="hero-acao" data-atalho="F3">Consultar estoque <kbd class="shortcut-key">F3</kbd></button><button type="button" class="hero-acao" data-atalho="F4">Novo condicional <kbd class="shortcut-key">F4</kbd></button></div></section>';
+}
+function heroTitulo(){
+  var h=hoje(),vh=S.vendas.filter(function(v){return v.data===h}),tot=vh.reduce(function(a,v){return a+nz(v.total)},0);
+  return vh.length?'Hoje a loja vendeu '+brl(tot)+' em '+vh.length+(vh.length===1?' venda.':' vendas.'):'Ainda não há vendas registradas hoje.';
+}
+function heroSub(pg,rc,baixos){
+  var venc=pg.qVenc+rc.qVenc,partes=[];
+  if(venc)partes.push(venc+(venc===1?' parcela vencida':' parcelas vencidas'));
+  if(baixos)partes.push(baixos+(baixos===1?' produto no estoque mínimo':' produtos no estoque mínimo'));
+  return partes.length?'Atenção: '+partes.join(' e ')+'.':'Nada vencido e o estoque está em dia.';
+}
 function resumoPagarTotal(){
   var r=resumo('pagar'),h=hoje(),lim=addDias(h,7),mes=mesAtual();
   (S.despesas||[]).forEach(function(d){
@@ -829,7 +889,7 @@ VIEWS.taxas={bar:function(){return ''},body:taxasCartaoBody};
 async function salvarTaxasCartao(form){var t={id:'taxasCartao',debito:{visaMaster:parseBR($('#taxa-debito-vm').value),outras:parseBR($('#taxa-debito-outras').value)},credito:{visaMaster:{},elo:{},diners:{},outras:{}}},er=[];if(t.debito.visaMaster<0||t.debito.visaMaster>100||t.debito.outras<0||t.debito.outras>100)er.push('As taxas devem estar entre 0% e 100%.');BANDEIRAS_CREDITO.forEach(function(b){for(var i=1;i<=12;i++){var a=form.querySelector('[data-taxa-credito="'+b[0]+'-'+i+'-intermediacao"]'),p=form.querySelector('[data-taxa-credito="'+b[0]+'-'+i+'-parcelamento"]'),av=a.value.trim(),pv=p.value.trim();if(!av&&!pv)continue;if(!av||!pv)er.push('Preencha os dois percentuais do plano '+i+'x de '+b[1]+' ou deixe ambos vazios.');else if(parseBR(av)<0||parseBR(pv)<0||parseBR(av)+parseBR(pv)>100)er.push('As taxas do plano '+i+'x de '+b[1]+' devem somar entre 0% e 100%.');else t.credito[b[0]][i]={intermediacao:parseBR(av),parcelamento:parseBR(pv)}}});if(er.length){$('#taxas-erros').innerHTML='<ul>'+er.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>';return}var btn=$('button[type=submit]',form);btn.disabled=true;try{await db.collection('configuracoes').doc('taxasCartao').set(t);toast('Taxas da maquininha salvas.')}catch(e){btn.disabled=false;$('#taxas-erros').textContent='Não foi possível salvar: '+(e&&e.message||e)}}
 
 VIEWS.painel={bar:function(){return ''},body:function(){
-  var boasVindas='<section class="dashboard-welcome dashboard-heading"><div><h2>Painel da loja</h2><div class="sub">Acompanhe os números e os próximos compromissos da loja.</div></div><div class="shortcut-legend" aria-label="Atalhos do teclado"><div class="shortcut-item"><kbd class="shortcut-key">F2</kbd><div class="shortcut-label">Nova venda</div></div><div class="shortcut-item"><kbd class="shortcut-key">F3</kbd><div class="shortcut-label">Consultar estoque</div></div><div class="shortcut-item"><kbd class="shortcut-key">F4</kbd><div class="shortcut-label">Novo condicional</div></div><div class="shortcut-item"><kbd class="shortcut-key">Esc</kbd><div class="shortcut-label">Fechar janela</div></div></div></section>';
+  var boasVindas=heroPainel('Sua loja está pronta.','Cadastre fornecedores, clientes e produtos para começar a vender.');
   if(!S.produtos.length&&!S.compras.length&&!S.vendas.length){
     return boasVindas+'<div class="hero"><h2>Vamos começar</h2><div class="sub">Siga esta ordem e o estoque e as contas se montam sozinhos:</div><ol class="steps"><li><b>Cadastros</b>: cadastre os fornecedores, os clientes e os produtos (com tamanho, cor, custo e preço).</li><li><b>Notas de entrada</b>: lance a nota do fornecedor. O estoque aumenta e as contas a pagar são geradas.</li><li><b>Vendas</b>: registre cada venda. O estoque baixa e as contas a receber são geradas.</li></ol><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-go="cadastros">Ir para Cadastros</button></div></div>';
   }
@@ -844,7 +904,7 @@ VIEWS.painel={bar:function(){return ''},body:function(){
     if(!l.length)return '<div class="empty">Nada em aberto.</div>';
     return '<ul>'+l.map(function(x){var s=sit(x.p);return '<li><div class="a"><b>'+esc(x.quem)+'</b><span class="sub">'+esc(x.ref)+' · parcela '+(x.i+1)+'/'+x.tot+'</span></div><div class="vv"><b>'+brl(x.p.valor)+'</b><br><span class="sub">'+fd(x.p.venc)+'</span> '+(s==='vencida'?'<span class="pill bad">Vencida</span>':s==='hoje'?'<span class="pill warn">Hoje</span>':'')+'</div></li>'}).join('')+'</ul>';
   }
-  return boasVindas+'<section class="kpis">'+
+  return heroPainel(heroTitulo(),heroSub(pg,rc,baixos.length))+'<section class="kpis">'+
     '<div class="kpi"><span class="l">A pagar em aberto</span><span class="v">'+brl(pg.aberto)+'</span><span class="s">'+(pg.vencido?'<b>'+brl(pg.vencido)+' vencido</b> · ':'')+brl(pg.semana)+' nos próximos 7 dias</span></div>'+
     '<div class="kpi kpi-teal"><span class="l">A receber em aberto</span><span class="v">'+brl(rc.aberto)+'</span><span class="s">'+(rc.vencido?'<b>'+brl(rc.vencido)+' vencido</b> · ':'')+brl(rc.semana)+' nos próximos 7 dias</span></div>'+
     '<div class="kpi"><span class="l">Saldo previsto (receber − pagar)</span><span class="v">'+brl(rc.aberto-pg.aberto)+'</span><span class="s">Só o que está em aberto hoje</span></div>'+
@@ -2083,8 +2143,10 @@ document.addEventListener('click',function(e){
   var t=e.target&&e.target.closest?e.target:null;if(!t)return;
   if(t.closest('#backup-btn'))abrirBackup();
   else if(t.closest('#app-greeting'))alterarNomeUsuario();
+  else if(t.closest('[data-atalho]')){var at=t.closest('[data-atalho]');document.dispatchEvent(new KeyboardEvent('keydown',{key:at.dataset.atalho,bubbles:true,cancelable:true}))}
 });
 (function boot(){
+  var logoLogin=$('#auth-logo');if(logoLogin&&typeof LOGO_LOJA_DATA==='string')logoLogin.src=LOGO_LOJA_DATA;
   var authScreen=$('#auth-screen'),appShell=$('#app-shell'),authError=$('#auth-error'),authForm=$('#auth-form'),authButton=$('#auth-submit');
   function showAuth(message){appShell.hidden=true;authScreen.hidden=false;if(message)authError.textContent=message}
   async function startApp(){authScreen.hidden=true;appShell.hidden=false;supabaseClient.auth.getSession().then(function(r){definirUsuario(r&&r.data&&r.data.session&&r.data.session.user)}).catch(function(){});carregarClima();setInterval(carregarClima,30*60*1000);db=createSupabaseDb();COLS.forEach(function(c){db.collection(c).onSnapshot(function(snap){S[c]=snap.docs.map(function(x){return Object.assign({},x.data(),{id:x.id})});loaded[c]=true;delete loadErrors[c];schedule()},function(err){loaded[c]=false;loadErrors[c]=err&&err.message||String(err);schedule()})});await fetchAllCollections();if(db&&db.ready)db.ready()}
