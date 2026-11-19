@@ -864,13 +864,13 @@ async function salvarCad(form){
   var saved=await ref.set(data);closeModal();toast(d.t+' salvo.'+(ent==='produtos'&&saved?' SKU: '+saved.sku+' · EAN-13: '+saved.codigoBarras+'.':saved&&saved.codigo?' Código: '+saved.codigo+'.':''));
 }
 function usos(ent,id){
-  if(ent==='produtos')return S.compras.concat(S.vendas).some(function(x){return (x.itens||[]).some(function(i){return i.produtoId===id})});
+  if(ent==='produtos')return S.compras.concat(S.vendas,S.condicionais).some(function(x){return (x.itens||[]).some(function(i){return i.produtoId===id})});
   if(ent==='fornecedores')return S.compras.some(function(x){return x.fornecedorId===id});
-  return S.vendas.some(function(x){return x.clienteId===id});
+  return S.vendas.concat(S.condicionais,S.recebimentos||[]).some(function(x){return x.clienteId===id});
 }
 function delCad(ent,id){
   var o=S[ent].find(function(x){return x.id===id});if(!o)return;
-  if(usos(ent,id)){toast('Não dá para excluir: já tem notas ou vendas ligadas a este cadastro.');return}
+  if(usos(ent,id)){toast('Não dá para excluir: este cadastro já aparece em notas, vendas, condicionais ou saldos.');return}
   confirmBox('Excluir '+CAD[ent].nome,'Excluir <b>'+esc(o.nome)+'</b>? Isso não pode ser desfeito.','Excluir',function(){return db.collection(ent).doc(id).delete().then(function(){toast('Excluído.')})});
 }
 
@@ -1099,6 +1099,15 @@ async function salvarDespesa(form){
   if(situacao==='paga'&&!dataPagamento){$('#dp-erros').textContent='Informe a data do pagamento para marcar esta despesa como paga.';return}
   var d={categoria:$('#dp-categoria').value,competencia:$('#dp-competencia').value,descricao:$('#dp-descricao').value.trim(),favorecido:$('#dp-favorecido').value.trim(),venc:$('#dp-venc').value,valor:valor,situacao:situacao,dataPagamento:situacao==='paga'?dataPagamento:'',formaPagamento:situacao==='paga'?$('#dp-forma').value:'',obs:$('#dp-obs').value.trim(),atualizadoEm:new Date().toISOString()};
   if(!form.dataset.id)d.criadoEm=d.atualizadoEm;
+  else{
+    var antes=S.despesas.find(function(x){return x.id===form.dataset.id});
+    if(antes){
+      d=Object.assign({},strip(antes),d);
+      var encargos=['multaPct','moraDiariaPct','moraMensalPct','multaValor','jurosValor','jurosDias','valorPagoTotal'];
+      if(situacao!=='paga')encargos.forEach(function(k){delete d[k]});
+      else if(d.valorPagoTotal!==undefined)d.valorPagoTotal=r2(valor+nz(d.multaValor)+nz(d.jurosValor));
+    }
+  }
   var btn=$('button[type=submit]',form);btn.disabled=true;
   try{
     if(form.dataset.id||quantidade===1)await db.collection('despesas').doc(id).set(d);
@@ -1723,9 +1732,14 @@ async function imprimirRelatorio(){
   }catch(err){toast('Não foi possível preparar o relatório: '+(err&&err.message||err))}
   finally{document.body.classList.remove('imprimindo-relatorio')}
 }
+function vendaQuitadaNaHora(d){
+  var ps=d.parcelas||[];if(ps.length!==1)return false;
+  if(AVISTA.indexOf(d.forma)>=0)return true;
+  return d.forma==='Cartão de crédito'&&ps[0].financeiroQuitado===true&&(ps[0].pagamentos||[]).length<=1;
+}
 function cancelarNota(kind,id){
   var c=kind==='compra',col=c?'compras':'vendas',d=S[col].find(function(x){return x.id===id});if(!d)return;
-  if((d.parcelas||[]).some(function(p){return totalPagoParcela(p)>0})&&!(!c&&d.parcelas.length===1&&AVISTA.indexOf(d.forma)>=0)){toast('Esta '+(c?'nota':'venda')+' tem pagamentos registrados. Estorne os pagamentos em Contas a '+(c?'pagar':'receber')+' antes de cancelar.');return}
+  if((d.parcelas||[]).some(function(p){return totalPagoParcela(p)>0})&&!(!c&&vendaQuitadaNaHora(d))){toast('Esta '+(c?'nota':'venda')+' tem pagamentos registrados. Estorne os pagamentos em Contas a '+(c?'pagar':'receber')+' antes de cancelar.');return}
   confirmBox('Cancelar '+(c?'nota de entrada':'venda'),'Cancelar '+(c?'a nota <b>'+esc(d.numeroNota||'s/n')+'</b> de '+esc(nomeForn(d)):'a venda <b>#'+d.numero+'</b>')+' de '+brl(d.total)+'? '+(c?'O estoque volta ao que era antes e as contas a pagar são apagadas.':'As peças voltam ao estoque e as contas a receber são apagadas.'+(d.condicionalId?' As peças serão devolvidas ao condicional vinculado.':'')),'Cancelar '+(c?'nota':'venda'),function(){
     if(!c&&d.condicionalId){var cond=S.condicionais.find(function(x){return x.id===d.condicionalId});if(cond){var itensCond=(cond.itens||[]).map(function(i){return Object.assign({},i)}),retirar={};(d.itens||[]).forEach(function(i){retirar[i.produtoId]=(retirar[i.produtoId]||0)+nz(i.qtd)});itensCond.forEach(function(i){var vendido=nz(i.vendida),q=Math.min(vendido,retirar[i.produtoId]||0);i.vendida=vendido-q;retirar[i.produtoId]=Math.max(0,(retirar[i.produtoId]||0)-q)});var situacao=itensCond.every(function(i){return qtdCondicionalAberto(i)<=0})?'encerrado':itensCond.some(function(i){return nz(i.vendida)||nz(i.devolvida)})?'parcial':'aberto';return db.collection('condicionais').doc(cond.id).update({itens:itensCond,situacao:situacao}).then(function(){return db.collection(col).doc(id).delete()}).then(function(){toast('Venda cancelada. As peças voltaram ao condicional.')})}}
     return db.collection(col).doc(id).delete().then(function(){toast('Cancelada.')})
