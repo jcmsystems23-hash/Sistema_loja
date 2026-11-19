@@ -1,4 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script></head><body>
+<!doctype html><html lang="pt-BR"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4"></script></head><body>
 <title>Controle de Loja</title>
 <script>(function(){var tema='dark';try{var salvo=localStorage.getItem('jbstore-tema');if(salvo==='light'||salvo==='dark')tema=salvo}catch(e){}document.documentElement.setAttribute('data-theme',tema)})();</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Instrument+Sans:wght@400;500;600&display=swap">
@@ -432,11 +432,19 @@ nav button[aria-current="page"],.nav-menu>summary[aria-current="page"]{backgroun
 @media(max-width:1000px){.app-shell{grid-template-columns:225px minmax(0,1fr)}.sidebar{padding-left:11px;padding-right:11px}.topbar{padding-left:18px;padding-right:18px}}
 @media(max-width:760px){.app-shell{display:block}.sidebar{position:sticky;top:0;width:100%;height:auto;max-height:none;padding:8px 12px;background:linear-gradient(90deg,var(--side-1),var(--side-2));border-right:0;border-bottom:1px solid var(--side-line);gap:0}.sidebar .brand{display:flex;min-height:0;padding:0 0 8px}.sidebar .brand h1{display:none}#nav{flex-direction:row;align-items:center;overflow-x:auto;gap:4px;padding:0 0 2px}#nav>button,#nav>.nav-menu{width:auto;flex:0 0 auto}#nav>button{border-left:0;border-bottom:2px solid transparent;padding:8px 10px}#nav>button[aria-current="page"]{border-bottom-color:#8abaff;box-shadow:none}#nav>.nav-menu>summary{padding:8px 10px}.nav-menu{position:relative}.nav-menu>summary[aria-current="page"]{border-left-color:transparent;border-bottom:2px solid #8abaff;box-shadow:none}.nav-submenu{position:absolute;left:0;top:calc(100% + 2px);z-index:40;min-width:180px;margin:0;padding:5px;background:var(--side-2);border:1px solid var(--side-line);border-radius:8px;box-shadow:var(--shadow)}.side-stats{display:none}.workspace .topbar{top:0;min-height:56px;padding:8px 14px}.app-greeting{font-size:17px}.app-sub{display:none}.topbar-title .system-date{font-size:11px;padding:0 3px}.theme-toggle{padding:6px 8px}.theme-toggle-label,.brand-color-control>span{display:none}.brand-color-control input[type=color]{width:30px;height:28px}main{padding:18px 14px 42px}}
 @media(max-width:520px){.topbar-title .system-date{display:none}.topbar{gap:8px}.app-greeting{font-size:15px}.weather-summary{padding:4px 6px;gap:3px;font-size:11px}.weather-summary img{width:22px;height:22px}.weather-summary .weather-temp{font-size:12px}.avatar{display:none}}
+/* polimento visual leve */
+html{scroll-behavior:smooth}
+.app-greeting{cursor:pointer}
+.kpi{transition:transform .15s ease,box-shadow .15s ease}
+.kpi:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.kpi .v,td.n,.side-card b{font-variant-numeric:tabular-nums}
+.btn:focus-visible,.icon-btn:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.kpi{transition:none}.kpi:hover{transform:none}}
 </style>
 <style>.auth-screen{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;padding:20px;background:var(--bg);color:var(--ink)}.auth-screen[hidden]{display:none}.auth-card{width:min(420px,100%);display:grid;gap:14px;padding:24px;background:var(--surface);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}.auth-card h1{font-size:24px}.auth-card p{margin:0;color:var(--muted)}.auth-card .btn{justify-self:end;min-width:100px}</style>
 
 <div id="auth-screen" class="auth-screen"><form id="auth-form" class="auth-card"><h1>JB Store</h1><p>Acesse com o usuário criado no Supabase.</p><label class="fld"><span>E-mail</span><input id="auth-email" type="email" autocomplete="username" required></label><label class="fld"><span>Senha</span><input id="auth-password" type="password" autocomplete="current-password" required></label><div id="auth-error" class="erros" role="alert"></div><button id="auth-submit" class="btn" type="submit">Entrar</button></form></div><div class="app-shell" id="app-shell" hidden><aside class="sidebar"><div class="brand"><h1 id="brand-title">JB Store</h1><button type="button" id="brand-logo-button" class="brand-store-logo" data-tab="loja" aria-label="Minha loja: abrir cadastro dos dados da loja" title="Minha loja"><img id="brand-logo" alt=""></button></div><nav id="nav" aria-label="Seções"></nav><div id="side-stats" class="side-stats" aria-label="Resumo rápido"></div></aside>
-<section class="workspace"><header class="topbar"><div class="topbar-title"><span id="system-date" class="system-date" aria-live="polite"></span><div id="app-greeting" class="app-greeting" aria-live="polite">Bom dia, Beatriz</div><div id="app-sub" class="app-sub">Acompanhe os números e os próximos compromissos da loja.</div></div><label class="quick-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="quick-search" type="search" placeholder="Busca rápida de estoque (Enter)" autocomplete="off" aria-label="Busca rápida de produto no estoque"></label><details id="weather-widget" class="weather-widget"><summary id="weather-summary" class="weather-summary" aria-label="Abrir previsão do tempo"><span id="weather-summary-text">Clima…</span></summary><div id="weather-panel" class="weather-panel" aria-live="polite"><h3>Previsão do tempo</h3><p class="weather-config-help">Carregando informações do clima…</p></div></details><label class="brand-color-control" title="Escolher cor da marca"><span>Cor da marca</span><input type="color" id="brand-color" value="#5669dc" aria-label="Escolher cor da marca"></label><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro"><span id="theme-toggle-icon" class="theme-toggle-icon" aria-hidden="true">☀</span><span id="theme-toggle-label" class="theme-toggle-label">Tema claro</span></button><button type="button" id="bell-btn" class="icon-btn" aria-label="Parcelas vencidas" title="Parcelas vencidas"></button><button type="button" id="avatar-btn" class="avatar" data-tab="loja" aria-label="Minha loja" title="Minha loja">D</button><button type="button" id="supabase-logout" class="btn ghost sm">Sair</button></header>
+<section class="workspace"><header class="topbar"><div class="topbar-title"><span id="system-date" class="system-date" aria-live="polite"></span><div id="app-greeting" class="app-greeting" aria-live="polite" title="Clique para alterar como o sistema chama você">Bom dia</div><div id="app-sub" class="app-sub">Acompanhe os números e os próximos compromissos da loja.</div></div><label class="quick-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="quick-search" type="search" placeholder="Busca rápida de estoque (Enter)" autocomplete="off" aria-label="Busca rápida de produto no estoque"></label><details id="weather-widget" class="weather-widget"><summary id="weather-summary" class="weather-summary" aria-label="Abrir previsão do tempo"><span id="weather-summary-text">Clima…</span></summary><div id="weather-panel" class="weather-panel" aria-live="polite"><h3>Previsão do tempo</h3><p class="weather-config-help">Carregando informações do clima…</p></div></details><label class="brand-color-control" title="Escolher cor da marca"><span>Cor da marca</span><input type="color" id="brand-color" value="#5669dc" aria-label="Escolher cor da marca"></label><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro"><span id="theme-toggle-icon" class="theme-toggle-icon" aria-hidden="true">☀</span><span id="theme-toggle-label" class="theme-toggle-label">Tema claro</span></button><button type="button" id="bell-btn" class="icon-btn" aria-label="Parcelas vencidas" title="Parcelas vencidas"></button><button type="button" id="avatar-btn" class="avatar" data-tab="loja" aria-label="Minha loja" title="Minha loja">D</button><button type="button" id="backup-btn" class="btn ghost sm" title="Baixar uma cópia dos dados">Backup</button><button type="button" id="supabase-logout" class="btn ghost sm">Sair</button></header>
 <main id="main"><div class="empty">Carregando…</div></main></section></div>
 <div id="modal" hidden></div>
 <div id="toast" hidden></div>
@@ -454,7 +462,15 @@ var supabaseClient=null;
 var $=function(s,el){return (el||document).querySelector(s)};
 var $$=function(s,el){return Array.prototype.slice.call((el||document).querySelectorAll(s))};
 function atualizarDataSistema(){var el=$('#system-date');if(!el)return;el.textContent=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(new Date())}
-function textoSaudacao(){var h=new Date().getHours();return (h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+', Beatriz'}
+var usuarioNome='';
+function nomeAmigavel(user){
+  if(!user)return '';
+  var m=user.user_metadata||{},n=String(m.nome||m.name||m.full_name||'').trim();
+  if(!n){var e=String(user.email||'').split('@')[0].replace(/[0-9_.+\-]+/g,' ').trim().split(' ')[0];n=e?e.charAt(0).toUpperCase()+e.slice(1).toLowerCase():''}
+  return n.slice(0,30);
+}
+function definirUsuario(user){usuarioNome=nomeAmigavel(user);atualizarSaudacao()}
+function textoSaudacao(){var h=new Date().getHours();return (h<12?'Bom dia':h<18?'Boa tarde':'Boa noite')+(usuarioNome?', '+usuarioNome:'')}
 function atualizarSaudacao(){var el=$('#app-greeting');if(el)el.textContent=textoSaudacao();var sub=$('#app-sub');if(sub)sub.textContent='Acompanhe os números e os próximos compromissos da loja.'}
 atualizarDataSistema();setInterval(atualizarDataSistema,60000);setInterval(atualizarSaudacao,60000);
 var DEFAULT_BRAND_COLOR='#5669dc',BRAND_COLOR_KEY='jbstore-cor-marca-',brandColorValue=DEFAULT_BRAND_COLOR;
@@ -615,6 +631,17 @@ function resumo(kind){
       if(x.p.venc<h){r.vencido+=saldoAtual;r.qVenc++}
       else if(x.p.venc<=lim)r.semana+=saldoAtual;
     }
+  });
+  return r;
+}
+
+function resumoPagarTotal(){
+  var r=resumo('pagar'),h=hoje(),lim=addDias(h,7),mes=mesAtual();
+  (S.despesas||[]).forEach(function(d){
+    if(despesaStatus(d)==='paga'){if(String(d.dataPagamento||'').slice(0,7)===mes)r.pagoMes+=nz(d.valorPagoTotal)||nz(d.valor);return}
+    var v=String(d.venc||''),val=nz(d.valor);
+    r.aberto+=val;
+    if(v&&v<h){r.vencido+=val;r.qVenc++}else if(v&&v<=lim)r.semana+=val;
   });
   return r;
 }
@@ -806,7 +833,7 @@ VIEWS.painel={bar:function(){return ''},body:function(){
   if(!S.produtos.length&&!S.compras.length&&!S.vendas.length){
     return boasVindas+'<div class="hero"><h2>Vamos começar</h2><div class="sub">Siga esta ordem e o estoque e as contas se montam sozinhos:</div><ol class="steps"><li><b>Cadastros</b>: cadastre os fornecedores, os clientes e os produtos (com tamanho, cor, custo e preço).</li><li><b>Notas de entrada</b>: lance a nota do fornecedor. O estoque aumenta e as contas a pagar são geradas.</li><li><b>Vendas</b>: registre cada venda. O estoque baixa e as contas a receber são geradas.</li></ol><div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-go="cadastros">Ir para Cadastros</button></div></div>';
   }
-  var pg=resumo('pagar'),rc=resumo('receber'),sd=saldo(),mes=mesAtual();
+  var pg=resumoPagarTotal(),rc=resumo('receber'),sd=saldo(),mes=mesAtual();
   var vm=S.vendas.filter(function(v){return (v.data||'').slice(0,7)===mes}),cm=S.compras.filter(function(v){return (v.data||'').slice(0,7)===mes});
   var tv=vm.reduce(function(a,v){return a+nz(v.total)},0),tc=cm.reduce(function(a,v){return a+nz(v.total)},0);
   var pecas=0,custo=0,baixos=[];
@@ -943,7 +970,7 @@ function salvarCondicional(form){
   if(er.length){$('#cond-erros').innerHTML='<ul>'+er.map(function(x){return '<li>'+esc(x)+'</li>'}).join('')+'</ul>';return}
   var doc={numero:S.condicionais.reduce(function(n,c){return Math.max(n,nz(c.numero))},0)+1,clienteId:cliente.id,clienteNome:cliente.nome,data:$('#cond-data').value,retornoPrevisto:$('#cond-retorno').value,itens:itens,obs:$('#cond-obs').value.trim(),situacao:'aberto',criadoEm:new Date().toISOString()};var btn=$('button[type=submit]',form);btn.disabled=true;
   var ref=db.collection('condicionais').doc();doc.id=ref.id;
-  return ref.set(doc).then(function(){S.condicionais.push(doc);schedule();closeModal();condicionalImpressaoPendente=doc;openModal('<div class="sheet sm" role="dialog" aria-modal="true"><div class="sh-h"><h2>Condicional registrado</h2><button type="button" class="x" data-m="close" aria-label="Fechar">×</button></div><div class="sh-b"><div>Deseja imprimir agora as duas vias do comprovante em bobina térmica de 80 mm?</div><div class="hint2">Uma via acompanha as mercadorias. A outra fica no arquivo da loja para reimpressão quando precisar.</div></div><div class="sh-f"><button type="button" class="btn ghost" data-act="concluir-condicional-impressao">Concluir</button><button type="button" class="btn" data-act="imprimir-condicional-pendente">Imprimir 2 vias</button></div></div>')}).catch(function(e){btn.disabled=false;$('#cond-erros').textContent=e&&e.message||'Não foi possível registrar o condicional.'});
+  return ref.set(doc).then(function(salvo){if(salvo&&salvo.numero!=null)doc.numero=salvo.numero;S.condicionais.push(doc);schedule();closeModal();condicionalImpressaoPendente=doc;openModal('<div class="sheet sm" role="dialog" aria-modal="true"><div class="sh-h"><h2>Condicional registrado</h2><button type="button" class="x" data-m="close" aria-label="Fechar">×</button></div><div class="sh-b"><div>Deseja imprimir agora as duas vias do comprovante em bobina térmica de 80 mm?</div><div class="hint2">Uma via acompanha as mercadorias. A outra fica no arquivo da loja para reimpressão quando precisar.</div></div><div class="sh-f"><button type="button" class="btn ghost" data-act="concluir-condicional-impressao">Concluir</button><button type="button" class="btn" data-act="imprimir-condicional-pendente">Imprimir 2 vias</button></div></div>')}).catch(function(e){btn.disabled=false;$('#cond-erros').textContent=e&&e.message||'Não foi possível registrar o condicional.'});
 }
 function imprimirCondicional(id,draft){
   var c=draft||S.condicionais.find(function(x){return x.id===id});if(!c){toast('Não foi possível localizar este condicional para impressão.');return}
@@ -1243,7 +1270,7 @@ function navIcon(name){
 }
 function paintNav(){
   var title=$('#brand-title'),loja=dadosLojaAtual();if(title)title.textContent=loja.nomeFantasia||loja.razaoSocial||'JB Store';document.title=(loja.nomeFantasia||loja.razaoSocial||'JB Store')+' · Sistema';var logoButton=$('#brand-logo-button'),logoImage=$('#brand-logo'),avatar=$('#avatar-btn');if(logoImage)logoImage.src=LOGO_LOJA_DATA;if(logoButton){if(tab==='loja')logoButton.setAttribute('aria-current','page');else logoButton.removeAttribute('aria-current')}if(avatar){var nome=loja.nomeFantasia||loja.razaoSocial||'JB Store';avatar.textContent=String(nome).trim().charAt(0).toUpperCase()||'J'}
-  var vp=resumo('pagar').qVenc,vr=resumo('receber').qVenc;
+  var vp=resumoPagarTotal().qVenc,vr=resumo('receber').qVenc;
   $('#nav').innerHTML=TABS.map(function(t){
     if(t[0]==='cadastros')return '<details class="nav-menu"><summary'+(tab==='cadastros'?' aria-current="page"':'')+'>'+navIcon(t[2])+'<span>Cadastros</span></summary><div class="nav-submenu" role="group" aria-label="Cadastros">'+CAD_ORDER.map(function(k){return '<button type="button" data-sub="'+k+'" aria-pressed="'+(tab==='cadastros'&&k===csub)+'">'+CAD[k].tp+'</button>'}).join('')+'</div></details>';
     if(t[0]==='relatorios')return '<details class="nav-menu"><summary'+(tab==='relatorios'?' aria-current="page"':'')+'>'+navIcon(t[2])+'<span>Relatórios</span></summary><div class="nav-submenu" role="group" aria-label="Relatórios"><button type="button" data-report="clientes" aria-pressed="'+(tab==='relatorios'&&reportType==='clientes')+'">Clientes</button><button type="button" data-report="fornecedores" aria-pressed="'+(tab==='relatorios'&&reportType==='fornecedores')+'">Fornecedores</button><button type="button" data-report="entradas" aria-pressed="'+(tab==='relatorios'&&reportType==='entradas')+'">Notas de entrada</button><button type="button" data-report="pagar" aria-pressed="'+(tab==='relatorios'&&reportType==='pagar')+'">Contas a pagar</button><button type="button" data-report="receber" aria-pressed="'+(tab==='relatorios'&&reportType==='receber')+'">Contas a receber</button><button type="button" data-report="estoque" aria-pressed="'+(tab==='relatorios'&&reportType==='estoque')+'">Estoque</button></div></details>';
@@ -1258,7 +1285,7 @@ function paintShell(){
   S.vendas.forEach(function(v){var valor=nz(v.total);if(v.data===h){vendasHoje+=valor;qtdHoje++}else if(v.data===ontem)vendasOntem+=valor});
   var aberto=parcRows('receber').reduce(function(total,x){return total+saldoParcela(x.p)},0),box=$('#side-stats');
   if(box){box.innerHTML='<div class="side-card"><span class="side-card-l">Vendas de hoje</span><b>'+brl(vendasHoje)+'</b><span class="trend '+(vendasHoje>=vendasOntem?'up':'down')+'" aria-hidden="true">'+(vendasHoje>=vendasOntem?'▲':'▼')+'</span><small>'+qtdHoje+' venda(s) hoje · ontem '+brl(vendasOntem)+'</small></div><button type="button" class="side-card" data-tab="receber"><span class="side-card-l">A receber em aberto</span><b>'+brl(aberto)+'</b><small>Ver contas a receber</small></button>'}
-  var bell=$('#bell-btn');if(bell){var vencidasPagar=resumo('pagar').qVenc,vencidasReceber=resumo('receber').qVenc,n=vencidasPagar+vencidasReceber;bell.innerHTML=bellIcon+(n?'<span class="badge">'+n+'</span>':'');bell.title=n?n+' parcela(s) vencida(s)':'Nenhuma parcela vencida';bell.setAttribute('aria-label',bell.title);bell.dataset.destino=vencidasReceber?'receber':'pagar'}
+  var bell=$('#bell-btn');if(bell){var vencidasPagar=resumoPagarTotal().qVenc,vencidasReceber=resumo('receber').qVenc,n=vencidasPagar+vencidasReceber;bell.innerHTML=bellIcon+(n?'<span class="badge">'+n+'</span>':'');bell.title=n?n+' parcela(s) vencida(s)':'Nenhuma parcela vencida';bell.setAttribute('aria-label',bell.title);bell.dataset.destino=vencidasReceber?'receber':'pagar'}
 }
 function paintLists(){
   $('#dl-prod').innerHTML=S.produtos.map(function(p){return '<option value="'+esc(prodLabel(p))+'">'}).join('');
@@ -1305,7 +1332,7 @@ function consultaRapidaEstoque(){
   input.addEventListener('input',function(){renderConsultaRapidaEstoque(input.value,sd)});
 }
 var quickSearch=$('#quick-search');if(quickSearch)quickSearch.addEventListener('keydown',function(e){if(e.key!=='Enter')return;e.preventDefault();var query=quickSearch.value.trim();if(!query)return;consultaRapidaEstoque();var input=$('#consulta-estoque-q');if(input){input.value=query;renderConsultaRapidaEstoque(query,saldo())}});
-var bellButton=$('#bell-btn');if(bellButton)bellButton.addEventListener('click',function(){var pagar=resumo('pagar').qVenc,receber=resumo('receber').qVenc;if(!pagar&&!receber){toast('Não há parcelas vencidas.');return}var destino=receber?'receber':'pagar';go(destino);F.st='vencida';renderFull()});
+var bellButton=$('#bell-btn');if(bellButton)bellButton.addEventListener('click',function(){var pagar=resumoPagarTotal().qVenc,receber=resumo('receber').qVenc;if(!pagar&&!receber){toast('Não há parcelas vencidas.');return}var destino=receber?'receber':'pagar';go(destino);F.st='vencida';renderFull()});
 function renderConsultaRapidaEstoque(query,saldos){
   var host=$('#consulta-estoque-resultados');if(!host)return;
   var q=String(query||'').trim().toLocaleLowerCase('pt-BR');
@@ -1479,7 +1506,7 @@ async function salvarNota(form){
     var parcelas=gerarParcelas(r.total,r.pp),doc={data:r.pp.data,itens:itens,subtotal:r.sub,desconto:parseBR($('#f-desc').value),total:r.total,parcelas:parcelas,obs:$('#f-obs').value.trim(),criadoEm:new Date().toISOString()};
     if(c){doc.fornecedorId=pid;doc.fornecedorNome=pnome;doc.numeroNota=$('#f-num').value.trim();doc.dataEmissao=$('#f-emi').value||r.pp.data;doc.frete=parseBR($('#f-frete').value)}
     else{doc.numero=S.vendas.reduce(function(a,v){return Math.max(a,nz(v.numero))},0)+1;doc.clienteId=pid;doc.clienteNome=pnome;doc.forma=r.pp.forma;if(r.pp.forma==='Dinheiro'){doc.valorRecebido=r2(valorRecebido);doc.troco=r2(valorRecebido-r.total)}if(r.pp.forma==='Cartão de crédito'||r.pp.forma==='Cartão de débito'){var taxaValor=r2(r.total*r.taxa.pct/100),liquido=r2(r.total-taxaValor);doc.taxaCartaoPct=r.taxa.pct;doc.taxaCartaoValor=taxaValor;doc.valorLiquido=liquido;if(r.pp.forma==='Cartão de débito'){doc.bandeiraDebito=$('#f-bandeira').value;doc.parcelas=registrarRecebimentoLiquido(parcelas,r.total,liquido,r.pp)}else{doc.bandeiraCredito=$('#f-bandeira-credito').value;doc.parcelasCartao=parcelas.map(function(p){return Object.assign({},p)});doc.parcelas=registrarRecebimentoLiquido([{n:1,totalParcelas:1,venc:r.pp.data,valor:liquido}],liquido,liquido,{forma:r.pp.forma,data:r.pp.data})}}if(condicionalId)doc.condicionalId=condicionalId}
-    var vendaId=makeId();await db.collection(c?'compras':'vendas').doc(vendaId).set(doc);
+    var vendaId=makeId();var salvo=await db.collection(c?'compras':'vendas').doc(vendaId).set(doc);if(!c&&salvo&&salvo.numero!=null)doc.numero=salvo.numero;
     if(!c&&condicionalId){var cond=S.condicionais.find(function(x){return x.id===condicionalId});if(cond){var qtdVenda={};itens.forEach(function(i){qtdVenda[i.produtoId]=(qtdVenda[i.produtoId]||0)+nz(i.qtd)});var itensCond=(cond.itens||[]).map(function(i){return Object.assign({},i)});itensCond.forEach(function(i){var disponivel=qtdCondicionalAberto(i),aplicar=Math.min(disponivel,qtdVenda[i.produtoId]||0);i.vendida=nz(i.vendida)+aplicar;qtdVenda[i.produtoId]=Math.max(0,(qtdVenda[i.produtoId]||0)-aplicar)});var sitCond=itensCond.every(function(i){return qtdCondicionalAberto(i)<=0})?'encerrado':'parcial';try{await db.collection('condicionais').doc(cond.id).update({itens:itensCond,situacao:sitCond,ultimaVendaId:vendaId,ultimaVendaNumero:doc.numero})}catch(condErr){closeModal();toast('Venda registrada, mas o vínculo com o condicional não foi atualizado. Confira o condicional #'+cond.numero+'.');oferecerImpressaoVenda(doc);return}}}
     if(c&&$('#f-atcusto').checked){
       var vistos={};
@@ -1942,7 +1969,15 @@ function carregarClima(){
   supabaseClient.functions.invoke('weather').then(function(result){if(result.error)throw result.error;mostrarClima(result.data)}).catch(function(){mostrarClima({configured:true,ok:false,message:'Previsão indisponível. Configure a função protegida de clima no Supabase.'})});
 }
 function listCollection(collection,retries){
-  return supabaseClient.from('store_records').select('id,data').eq('store_id',STORE_ID).eq('collection',collection).order('created_at',{ascending:true}).then(function(result){if(result.error)throw result.error;return result.data||[]}).catch(function(err){if(retries>0)return new Promise(function(resolve){setTimeout(resolve,700)}).then(function(){return listCollection(collection,retries-1)});throw new Error('Leitura de “'+collection+'”: '+(err&&err.message||String(err)))})
+  var PAGE=1000;
+  function pagina(from,acc){
+    return supabaseClient.from('store_records').select('id,data').eq('store_id',STORE_ID).eq('collection',collection).order('created_at',{ascending:true}).order('id',{ascending:true}).range(from,from+PAGE-1).then(function(result){
+      if(result.error)throw result.error;
+      var rows=result.data||[];acc=acc.concat(rows);
+      return rows.length>=PAGE?pagina(from+PAGE,acc):acc;
+    });
+  }
+  return pagina(0,[]).catch(function(err){if(retries>0)return new Promise(function(resolve){setTimeout(resolve,700)}).then(function(){return listCollection(collection,retries-1)});throw new Error('Leitura de “'+collection+'”: '+(err&&err.message||String(err)))})
 }
 function refreshCollections(names){
   return Promise.all(names.map(function(c){return listCollection(c,1).then(function(rows){S[c]=rows.map(function(row){return Object.assign({},row.data,{id:row.id})});loaded[c]=true;delete loadErrors[c]})})).then(function(){schedule()});
@@ -1973,16 +2008,92 @@ function createSupabaseDb(){
     }},onSnapshot:function(next,error){var item={next:next,error:error||function(err){toast('Erro ao ler '+collection+': '+(err&&err.message||err))}};(listeners[collection]||(listeners[collection]=[])).push(item);notify(collection);return {unsubscribe:function(){listeners[collection]=listeners[collection].filter(function(x){return x!==item})}}}}
   },ready:function(){initialSnapshotReady=true;COLS.forEach(notify)}};
 }
+
+/* ---------- backup (JSON e planilha) e nome do usuário ---------- */
+var BACKUP_ROTULOS={produtos:'Produtos',fornecedores:'Fornecedores',clientes:'Clientes',compras:'Compras',vendas:'Vendas',despesas:'Despesas',recebimentos:'Recebimentos',condicionais:'Condicionais'};
+function carimboArquivo(){var d=new Date(),z=function(n){return String(n).padStart(2,'0')};return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate())+'_'+z(d.getHours())+'h'+z(d.getMinutes())}
+function baixarArquivo(nome,blob){var a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=nome;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(url);a.remove()},1500)}
+function marcarBackupFeito(){try{localStorage.setItem('jbstore-ultimo-backup',new Date().toISOString())}catch(e){}}
+async function coletarBackup(){
+  var out={};
+  for(var i=0;i<COLS.length;i++){out[COLS[i]]=await listCollection(COLS[i],1)}
+  return out;
+}
+function linhaPlana(o){
+  var r={};
+  Object.keys(o).forEach(function(k){
+    var v=o[k];
+    if(v===null||v===undefined)v='';else if(typeof v==='object')v=JSON.stringify(v);
+    if(typeof v==='string'&&v.length>32000)v=v.slice(0,32000)+'…';
+    r[k]=v;
+  });
+  return r;
+}
+function abasDaPlanilha(dados){
+  var abas=[],resumoRows=[];
+  Object.keys(BACKUP_ROTULOS).forEach(function(c){resumoRows.push({'Área':BACKUP_ROTULOS[c],'Registros':(dados[c]||[]).length})});
+  abas.push(['Resumo',[{'Área':'Gerado em','Registros':new Date().toLocaleString('pt-BR')}].concat(resumoRows)]);
+  Object.keys(BACKUP_ROTULOS).forEach(function(c){
+    var rows=(dados[c]||[]).map(function(r){return linhaPlana(Object.assign({},r.data,{id:r.id}))});
+    if(rows.length)abas.push([BACKUP_ROTULOS[c],rows]);
+  });
+  var itensV=[],itensC=[],parc=[];
+  (dados.vendas||[]).forEach(function(r){var d=r.data||{};(d.itens||[]).forEach(function(i){itensV.push(linhaPlana(Object.assign({'Venda':d.numero,'Data':d.data,'Cliente':d.clienteNome},i)))});(d.parcelas||[]).forEach(function(p,i){parc.push(linhaPlana({'Tipo':'A receber','Documento':'Venda #'+d.numero,'Pessoa':d.clienteNome||'','Parcela':(i+1)+'/'+d.parcelas.length,'Vencimento':p.venc,'Valor':p.valor,'Pago em':p.pagoEm||'','Pagamentos':Array.isArray(p.pagamentos)?p.pagamentos:''}))})});
+  (dados.compras||[]).forEach(function(r){var d=r.data||{};(d.itens||[]).forEach(function(i){itensC.push(linhaPlana(Object.assign({'Nota':d.numeroNota,'Fornecedor':d.fornecedorNome,'Data':d.data},i)))});(d.parcelas||[]).forEach(function(p,i){parc.push(linhaPlana({'Tipo':'A pagar','Documento':'NF '+(d.numeroNota||'s/n'),'Pessoa':d.fornecedorNome||'','Parcela':(i+1)+'/'+d.parcelas.length,'Vencimento':p.venc,'Valor':p.valor,'Pago em':p.pagoEm||'','Pagamentos':Array.isArray(p.pagamentos)?p.pagamentos:''}))})});
+  (dados.recebimentos||[]).forEach(function(r){var d=r.data||{};(d.parcelas||[]).forEach(function(p,i){parc.push(linhaPlana({'Tipo':'A receber','Documento':'Saldo anterior'+(d.referencia?' · '+d.referencia:''),'Pessoa':d.clienteNome||'','Parcela':(i+1)+'/'+d.parcelas.length,'Vencimento':p.venc,'Valor':p.valor,'Pago em':p.pagoEm||'','Pagamentos':Array.isArray(p.pagamentos)?p.pagamentos:''}))})});
+  if(itensV.length)abas.push(['Itens das vendas',itensV]);
+  if(itensC.length)abas.push(['Itens das compras',itensC]);
+  if(parc.length)abas.push(['Parcelas',parc]);
+  return abas;
+}
+function carregarXlsx(){
+  if(window.XLSX)return Promise.resolve(window.XLSX);
+  return new Promise(function(ok,fail){var sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';sc.onload=function(){window.XLSX?ok(window.XLSX):fail(new Error('Gerador de planilhas indisponível.'))};sc.onerror=function(){fail(new Error('Não foi possível carregar o gerador de planilhas. Confira a internet ou use o backup JSON.'))};document.head.appendChild(sc)});
+}
+async function baixarBackup(tipo,btn){
+  var texto=btn.textContent;btn.disabled=true;btn.textContent='Gerando…';
+  try{
+    var dados=await coletarBackup();
+    if(tipo==='json'){
+      var pacote={sistema:'JB Store',versao:1,geradoEm:new Date().toISOString(),storeId:STORE_ID,colecoes:{}};
+      Object.keys(dados).forEach(function(c){pacote.colecoes[c]=dados[c].map(function(r){return {id:r.id,data:r.data}})});
+      baixarArquivo('backup-loja_'+carimboArquivo()+'.json',new Blob([JSON.stringify(pacote)],{type:'application/json'}));
+    }else{
+      var X=await carregarXlsx(),wb=X.utils.book_new();
+      abasDaPlanilha(dados).forEach(function(a){X.utils.book_append_sheet(wb,X.utils.json_to_sheet(a[1]),a[0].slice(0,31))});
+      var arr=X.write(wb,{bookType:'xlsx',type:'array'});
+      baixarArquivo('planilha-loja_'+carimboArquivo()+'.xlsx',new Blob([arr],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+    }
+    marcarBackupFeito();closeModal();toast(tipo==='json'?'Backup completo baixado.':'Planilha baixada.');
+  }catch(e){btn.disabled=false;btn.textContent=texto;toast('Não foi possível gerar o arquivo: '+(e&&e.message||e))}
+}
+function abrirBackup(){
+  var ult='';try{ult=localStorage.getItem('jbstore-ultimo-backup')||''}catch(e){}
+  openModal('<div class="sheet sm" role="dialog" aria-modal="true"><div class="sh-h"><h2>Backup dos dados</h2><button type="button" class="x" data-m="close" aria-label="Fechar">×</button></div><div class="sh-b"><div>Baixe uma cópia de tudo o que está cadastrado: produtos, clientes, fornecedores, vendas, compras e financeiro.</div><div class="hint2"><b>Backup completo (JSON)</b>: guarda todos os dados e serve para restaurar depois.<br><b>Planilha (Excel)</b>: para consultar e enviar ao contador. Não serve para restaurar.</div><div class="hint2">'+(ult?'Último backup baixado neste aparelho: '+esc(new Date(ult).toLocaleString('pt-BR')):'Nenhum backup baixado neste aparelho ainda.')+'. Guarde o arquivo fora do computador da loja, por exemplo no Google Drive.</div></div><div class="sh-f"><button type="button" class="btn ghost" id="bk-xlsx">Planilha (Excel)</button><button type="button" class="btn" id="bk-json">Backup completo (JSON)</button></div></div>');
+  var j=$('#bk-json'),x=$('#bk-xlsx');
+  if(j)j.addEventListener('click',function(){baixarBackup('json',j)});
+  if(x)x.addEventListener('click',function(){baixarBackup('xlsx',x)});
+}
+function alterarNomeUsuario(){
+  var novo=prompt('Como você quer ser chamado(a) no sistema?',usuarioNome||'');
+  if(novo===null)return;novo=novo.trim().slice(0,30);if(!novo)return;
+  supabaseClient.auth.updateUser({data:{nome:novo}}).then(function(res){if(res.error)throw res.error;usuarioNome=novo;atualizarSaudacao();toast('Nome atualizado.')}).catch(function(e){toast('Não foi possível salvar o nome: '+(e&&e.message||e))});
+}
+document.addEventListener('click',function(e){
+  var t=e.target&&e.target.closest?e.target:null;if(!t)return;
+  if(t.closest('#backup-btn'))abrirBackup();
+  else if(t.closest('#app-greeting'))alterarNomeUsuario();
+});
 (function boot(){
   var authScreen=$('#auth-screen'),appShell=$('#app-shell'),authError=$('#auth-error'),authForm=$('#auth-form'),authButton=$('#auth-submit');
   function showAuth(message){appShell.hidden=true;authScreen.hidden=false;if(message)authError.textContent=message}
-  async function startApp(){authScreen.hidden=true;appShell.hidden=false;carregarClima();setInterval(carregarClima,30*60*1000);db=createSupabaseDb();COLS.forEach(function(c){db.collection(c).onSnapshot(function(snap){S[c]=snap.docs.map(function(x){return Object.assign({},x.data(),{id:x.id})});loaded[c]=true;delete loadErrors[c];schedule()},function(err){loaded[c]=false;loadErrors[c]=err&&err.message||String(err);schedule()})});await fetchAllCollections();if(db&&db.ready)db.ready()}
+  async function startApp(){authScreen.hidden=true;appShell.hidden=false;supabaseClient.auth.getSession().then(function(r){definirUsuario(r&&r.data&&r.data.session&&r.data.session.user)}).catch(function(){});carregarClima();setInterval(carregarClima,30*60*1000);db=createSupabaseDb();COLS.forEach(function(c){db.collection(c).onSnapshot(function(snap){S[c]=snap.docs.map(function(x){return Object.assign({},x.data(),{id:x.id})});loaded[c]=true;delete loadErrors[c];schedule()},function(err){loaded[c]=false;loadErrors[c]=err&&err.message||String(err);schedule()})});await fetchAllCollections();if(db&&db.ready)db.ready()}
   if(SUPABASE_URL.indexOf('COLE_A_')===0||SUPABASE_PUBLISHABLE_KEY.indexOf('COLE_A_')===0){showAuth('Preencha SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY no início do script antes de publicar.');authButton.disabled=true;return}
   if(!window.supabase||!window.supabase.createClient){showAuth('A biblioteca Supabase não carregou. Verifique a conexão e recarregue a página.');return}
   if(!/^[0-9a-f-]{36}$/i.test(STORE_ID)){showAuth('STORE_ID precisa ser o UUID cadastrado na tabela stores.');authButton.disabled=true;return}
   supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
   authForm.addEventListener('submit',async function(event){event.preventDefault();authButton.disabled=true;authError.textContent='';var result=await supabaseClient.auth.signInWithPassword({email:$('#auth-email').value.trim(),password:$('#auth-password').value});if(result.error){authError.textContent=result.error.message;authButton.disabled=false;return}try{await startApp()}catch(err){showAuth(err.message||'Não foi possível carregar a loja.');authButton.disabled=false}});
-  $('#supabase-logout').addEventListener('click',async function(){await supabaseClient.auth.signOut();showAuth('Sessão encerrada.')});
+  $('#supabase-logout').addEventListener('click',async function(){try{await supabaseClient.auth.signOut()}catch(e){}location.reload()});
   supabaseClient.auth.onAuthStateChange(async function(event,session){
   if(event==='PASSWORD_RECOVERY'){
     var novaSenha=prompt('Digite a sua nova senha (mínimo 6 caracteres, com letras maiúsculas, minúsculas e números):');
