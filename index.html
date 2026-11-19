@@ -485,12 +485,18 @@ html{scroll-behavior:smooth}
 .auth-card .btn:hover:not(:disabled){background:var(--bronze);border-color:var(--bronze);color:var(--ameixa)}
 .auth-card .btn:focus-visible{outline:2px solid var(--bronze-esc);outline-offset:3px}
 .auth-card .btn:disabled{opacity:.6;cursor:default}
+.auth-link{justify-self:center;padding:4px 2px;border:0;background:none;color:var(--areia);font:inherit;font-size:14px;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.auth-link:hover:not(:disabled){color:var(--bronze-esc)}
+.auth-link:focus-visible{outline:2px solid var(--bronze-esc);outline-offset:3px;border-radius:2px}
+.auth-link:disabled{opacity:.55;cursor:default}
+.auth-info{margin:0;color:#2f6b4a;font-size:14px}
+.auth-info:empty{display:none}
 @keyframes etiqueta-balanco{0%{opacity:0;transform:rotate(-7deg)}8%{opacity:1}30%{transform:rotate(3.2deg)}52%{transform:rotate(-1.6deg)}72%{transform:rotate(.7deg)}100%{opacity:1;transform:rotate(0)}}
 @media (max-height:640px){.auth-tag{margin-top:90px;transform-origin:50% -90px}.auth-tag::before{top:-90px;height:112px}}
 @media (prefers-reduced-motion:reduce){.auth-tag{animation:none}}
 </style>
 
-<div id="auth-screen" class="auth-screen"><div class="auth-tag"><form id="auth-form" class="auth-card"><span class="auth-hole" aria-hidden="true"></span><img id="auth-logo" class="auth-logo" alt="" width="76" height="76"><h1>JB Store</h1><p class="auth-tagline">Sua casa, seu estilo</p><label class="fld"><span>E-mail</span><input id="auth-email" type="email" autocomplete="username" required></label><label class="fld"><span>Senha</span><input id="auth-password" type="password" autocomplete="current-password" required></label><div id="auth-error" class="erros" role="alert"></div><button id="auth-submit" class="btn" type="submit">Entrar</button></form></div></div><div class="app-shell" id="app-shell" hidden><aside class="sidebar"><div class="brand"><h1 id="brand-title">JB Store</h1><button type="button" id="brand-logo-button" class="brand-store-logo" data-tab="loja" aria-label="Minha loja: abrir cadastro dos dados da loja" title="Minha loja"><img id="brand-logo" alt=""></button></div><nav id="nav" aria-label="Seções"></nav><div id="side-stats" class="side-stats" aria-label="Resumo rápido"></div></aside>
+<div id="auth-screen" class="auth-screen"><div class="auth-tag"><form id="auth-form" class="auth-card"><span class="auth-hole" aria-hidden="true"></span><img id="auth-logo" class="auth-logo" alt="" width="76" height="76"><h1>JB Store</h1><p class="auth-tagline">Sua casa, seu estilo</p><label class="fld"><span>E-mail</span><input id="auth-email" type="email" autocomplete="username" required></label><label class="fld"><span>Senha</span><input id="auth-password" type="password" autocomplete="current-password" required></label><div id="auth-error" class="erros" role="alert"></div><div id="auth-info" class="auth-info" role="status"></div><button id="auth-submit" class="btn" type="submit">Entrar</button><button type="button" id="auth-forgot" class="auth-link">Esqueci minha senha</button></form><form id="auth-reset-form" class="auth-card" hidden><span class="auth-hole" aria-hidden="true"></span><img id="auth-logo2" class="auth-logo" alt="" width="76" height="76"><h1>Nova senha</h1><p class="auth-tagline">Escolha uma senha que só você saiba.</p><label class="fld"><span>Nova senha (mínimo 8 caracteres)</span><input id="auth-new-password" type="password" autocomplete="new-password" minlength="8" required></label><label class="fld"><span>Repita a nova senha</span><input id="auth-new-password2" type="password" autocomplete="new-password" minlength="8" required></label><div id="auth-reset-error" class="erros" role="alert"></div><button id="auth-reset-submit" class="btn" type="submit">Salvar nova senha</button></form></div></div><div class="app-shell" id="app-shell" hidden><aside class="sidebar"><div class="brand"><h1 id="brand-title">JB Store</h1><button type="button" id="brand-logo-button" class="brand-store-logo" data-tab="loja" aria-label="Minha loja: abrir cadastro dos dados da loja" title="Minha loja"><img id="brand-logo" alt=""></button></div><nav id="nav" aria-label="Seções"></nav><div id="side-stats" class="side-stats" aria-label="Resumo rápido"></div></aside>
 <section class="workspace"><header class="topbar"><div class="topbar-title"><span id="system-date" class="system-date" aria-live="polite"></span><div id="app-greeting" class="app-greeting" aria-live="polite" title="Clique para alterar como o sistema chama você">Bom dia</div><div id="app-sub" class="app-sub">Acompanhe os números e os próximos compromissos da loja.</div></div><label class="quick-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="quick-search" type="search" placeholder="Busca rápida de estoque (Enter)" autocomplete="off" aria-label="Busca rápida de produto no estoque"></label><details id="weather-widget" class="weather-widget"><summary id="weather-summary" class="weather-summary" aria-label="Abrir previsão do tempo"><span id="weather-summary-text">Clima…</span></summary><div id="weather-panel" class="weather-panel" aria-live="polite"><h3>Previsão do tempo</h3><p class="weather-config-help">Carregando informações do clima…</p></div></details><label class="brand-color-control" title="Escolher cor da marca"><span>Cor da marca</span><input type="color" id="brand-color" value="#5669dc" aria-label="Escolher cor da marca"></label><button type="button" id="theme-toggle" class="theme-toggle" aria-label="Ativar tema claro" title="Ativar tema claro"><span id="theme-toggle-icon" class="theme-toggle-icon" aria-hidden="true">☀</span><span id="theme-toggle-label" class="theme-toggle-label">Tema claro</span></button><button type="button" id="bell-btn" class="icon-btn" aria-label="Parcelas vencidas" title="Parcelas vencidas"></button><button type="button" id="avatar-btn" class="avatar" data-tab="loja" aria-label="Minha loja" title="Minha loja">D</button><button type="button" id="backup-btn" class="btn ghost sm" title="Baixar uma cópia dos dados">Backup</button><button type="button" id="supabase-logout" class="btn ghost sm">Sair</button></header>
 <main id="main"><div class="empty">Carregando…</div></main></section></div>
 <div id="modal" hidden></div>
@@ -2148,6 +2154,16 @@ function abrirBackup(){
   if(j)j.addEventListener('click',function(){baixarBackup('json',j)});
   if(x)x.addEventListener('click',function(){baixarBackup('xlsx',x)});
 }
+function traduzErroAuth(m){
+  m=String(m||'');
+  if(/invalid login credentials/i.test(m))return 'E-mail ou senha incorretos.';
+  if(/different from the old password/i.test(m))return 'A nova senha precisa ser diferente da atual.';
+  if(/weak password|password.*(weak|short|at least|characters)/i.test(m))return 'Senha fraca: use pelo menos 8 caracteres, com letras maiúsculas, minúsculas e números.';
+  if(/rate limit|too many|after \d+ seconds/i.test(m))return 'Muitas tentativas. Espere alguns minutos e tente de novo.';
+  if(/email not confirmed/i.test(m))return 'Este e-mail ainda não foi confirmado.';
+  if(/session|jwt|expired/i.test(m))return 'O link venceu. Peça um novo em “Esqueci minha senha”.';
+  return m;
+}
 function alterarNomeUsuario(){
   var novo=prompt('Como você quer ser chamado(a) no sistema?',usuarioNome||'');
   if(novo===null)return;novo=novo.trim().slice(0,30);if(!novo)return;
@@ -2160,29 +2176,49 @@ document.addEventListener('click',function(e){
   else if(t.closest('[data-atalho]')){var at=t.closest('[data-atalho]');document.dispatchEvent(new KeyboardEvent('keydown',{key:at.dataset.atalho,bubbles:true,cancelable:true}))}
 });
 (function boot(){
-  var logoLogin=$('#auth-logo');if(logoLogin&&typeof LOGO_LOJA_DATA==='string')logoLogin.src=LOGO_LOJA_DATA;
-  var authScreen=$('#auth-screen'),appShell=$('#app-shell'),authError=$('#auth-error'),authForm=$('#auth-form'),authButton=$('#auth-submit');
+  $$('.auth-logo').forEach(function(img){if(typeof LOGO_LOJA_DATA==='string')img.src=LOGO_LOJA_DATA});
+  var authScreen=$('#auth-screen'),appShell=$('#app-shell'),authError=$('#auth-error'),authForm=$('#auth-form'),authButton=$('#auth-submit'),resetForm=$('#auth-reset-form');
+  var hashAuth=location.hash||'',recuperando=/type=recovery/.test(hashAuth),linkInvalido=/error_code=otp_expired|error=access_denied/.test(hashAuth);
+  function mostrarNovaSenha(){appShell.hidden=true;authScreen.hidden=false;authForm.hidden=true;resetForm.hidden=false;var f=$('#auth-new-password');if(f)f.focus()}
   function showAuth(message){appShell.hidden=true;authScreen.hidden=false;if(message)authError.textContent=message}
   async function startApp(){authScreen.hidden=true;appShell.hidden=false;supabaseClient.auth.getSession().then(function(r){definirUsuario(r&&r.data&&r.data.session&&r.data.session.user)}).catch(function(){});carregarClima();setInterval(carregarClima,30*60*1000);db=createSupabaseDb();COLS.forEach(function(c){db.collection(c).onSnapshot(function(snap){S[c]=snap.docs.map(function(x){return Object.assign({},x.data(),{id:x.id})});loaded[c]=true;delete loadErrors[c];schedule()},function(err){loaded[c]=false;loadErrors[c]=err&&err.message||String(err);schedule()})});await fetchAllCollections();if(db&&db.ready)db.ready()}
   if(SUPABASE_URL.indexOf('COLE_A_')===0||SUPABASE_PUBLISHABLE_KEY.indexOf('COLE_A_')===0){showAuth('Preencha SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY no início do script antes de publicar.');authButton.disabled=true;return}
   if(!window.supabase||!window.supabase.createClient){showAuth('A biblioteca Supabase não carregou. Verifique a conexão e recarregue a página.');return}
   if(!/^[0-9a-f-]{36}$/i.test(STORE_ID)){showAuth('STORE_ID precisa ser o UUID cadastrado na tabela stores.');authButton.disabled=true;return}
   supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  authForm.addEventListener('submit',async function(event){event.preventDefault();authButton.disabled=true;authError.textContent='';var result=await supabaseClient.auth.signInWithPassword({email:$('#auth-email').value.trim(),password:$('#auth-password').value});if(result.error){authError.textContent=result.error.message;authButton.disabled=false;return}try{await startApp()}catch(err){showAuth(err.message||'Não foi possível carregar a loja.');authButton.disabled=false}});
+  authForm.addEventListener('submit',async function(event){event.preventDefault();authButton.disabled=true;authError.textContent='';var result=await supabaseClient.auth.signInWithPassword({email:$('#auth-email').value.trim(),password:$('#auth-password').value});if(result.error){authError.textContent=traduzErroAuth(result.error.message);authButton.disabled=false;return}try{await startApp()}catch(err){showAuth(err.message||'Não foi possível carregar a loja.');authButton.disabled=false}});
+  var forgot=$('#auth-forgot');
+  forgot.addEventListener('click',async function(){
+    var email=$('#auth-email').value.trim(),info=$('#auth-info');authError.textContent='';info.textContent='';
+    if(!email){authError.textContent='Digite seu e-mail acima e clique de novo em “Esqueci minha senha”.';$('#auth-email').focus();return}
+    forgot.disabled=true;
+    var r=await supabaseClient.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    if(r.error){authError.textContent=traduzErroAuth(r.error.message);forgot.disabled=false;return}
+    info.textContent='Se este e-mail tiver conta, enviamos um link para criar uma nova senha. Confira também o spam.';
+    setTimeout(function(){forgot.disabled=false},60000);
+  });
+  resetForm.addEventListener('submit',async function(e){
+    e.preventDefault();
+    var n1=$('#auth-new-password').value,n2=$('#auth-new-password2').value,err=$('#auth-reset-error'),btn=$('#auth-reset-submit');err.textContent='';
+    if(n1.length<8){err.textContent='Use pelo menos 8 caracteres.';return}
+    if(n1!==n2){err.textContent='As duas senhas precisam ser iguais.';return}
+    btn.disabled=true;
+    var r=await supabaseClient.auth.updateUser({password:n1});
+    if(r.error){err.textContent=traduzErroAuth(r.error.message);btn.disabled=false;return}
+    recuperando=false;history.replaceState(null,'',location.pathname+location.search);
+    try{await supabaseClient.auth.signOut()}catch(x){}
+    resetForm.reset();resetForm.hidden=true;authForm.hidden=false;btn.disabled=false;authButton.disabled=false;
+    $('#auth-info').textContent='Senha alterada. Entre com a nova senha.';showAuth();
+  });
   $('#supabase-logout').addEventListener('click',async function(){try{await supabaseClient.auth.signOut()}catch(e){}location.reload()});
   supabaseClient.auth.onAuthStateChange(async function(event,session){
   if(event==='PASSWORD_RECOVERY'){
-    var novaSenha=prompt('Digite a sua nova senha (mínimo 6 caracteres, com letras maiúsculas, minúsculas e números):');
-    if(novaSenha){
-      var res=await supabaseClient.auth.updateUser({password:novaSenha});
-      if(res.error){alert('Erro ao atualizar senha: '+res.error.message);}
-      else{alert('Senha atualizada com sucesso!');window.location.hash='';}
-    }
+    recuperando=true;mostrarNovaSenha();
   } else if(event==='SIGNED_OUT'||!session){
     showAuth();
   }
 });
-  supabaseClient.auth.getSession().then(function(result){if(result.error){showAuth(result.error.message);return}if(result.data.session)startApp();else showAuth()}).catch(function(err){showAuth(err.message||'Não foi possível verificar a sessão.')});
+  supabaseClient.auth.getSession().then(function(result){if(linkInvalido){history.replaceState(null,'',location.pathname+location.search);showAuth('Este link venceu ou já foi usado. Peça um novo em “Esqueci minha senha”.');return}if(result.error){showAuth(result.error.message);return}if(recuperando){mostrarNovaSenha();return}if(result.data.session)startApp();else showAuth()}).catch(function(err){showAuth(err.message||'Não foi possível verificar a sessão.')});
 })();
 })();
 </script>
