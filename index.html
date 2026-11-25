@@ -292,6 +292,7 @@ td.act .btn+.btn{margin-left:4px}
 #condicional-impressao{display:none}
 @media print{
   @page labels{size:A4;margin:8mm}
+  @page rolo{size:100mm 50mm;margin:0}
   @page carne{size:A4 portrait;margin:0}
   @page recibo80{size:80mm auto;margin:0}
   @page{margin:10mm}
@@ -304,6 +305,13 @@ td.act .btn+.btn{margin-left:4px}
   body.imprimindo-etiquetas .etiqueta-sku{font-size:6px;line-height:1}
   body.imprimindo-etiquetas .etiqueta-ean{display:block;width:45mm;height:12.5mm;max-height:12.5mm}
   body.imprimindo-etiquetas .etiqueta-preco{font-size:12px;font-weight:700;line-height:1}
+  body.imprimindo-etiquetas.etq-rolo{page:rolo}
+  body.imprimindo-etiquetas.etq-rolo #etiqueta-impressao{width:100mm;margin:0;grid-template-columns:50mm 50mm;grid-auto-rows:50mm;gap:0}
+  body.imprimindo-etiquetas.etq-rolo .etiqueta-produto{width:50mm;height:50mm;padding:3mm 3mm 2.5mm;border:0;break-inside:avoid;page-break-inside:avoid;justify-content:space-between}
+  body.imprimindo-etiquetas.etq-rolo .etiqueta-nome{max-height:12mm;font-size:11px;line-height:1.1}
+  body.imprimindo-etiquetas.etq-rolo .etiqueta-sku{font-size:8px}
+  body.imprimindo-etiquetas.etq-rolo .etiqueta-ean{width:42mm;height:19mm;max-height:19mm}
+  body.imprimindo-etiquetas.etq-rolo .etiqueta-preco{font-size:20px}
   body.imprimindo-recibo>*:not(#recibo-impressao){display:none!important}
   body.imprimindo-recibo #recibo-impressao{display:block!important;position:fixed;inset:0;width:100%;background:#fff;color:#000}
   .recibo-papel{width:76mm;max-width:100%;margin:0 auto;padding:4mm;font:12px Arial,sans-serif;color:#000}
@@ -1664,7 +1672,7 @@ function oferecerImpressaoVenda(doc){
 }
 function etiquetasForm(id){
   var p=S.produtos.find(function(x){return x.id===id});if(!p)return;
-  openModal('<form class="sheet sm" id="etiquetaf" data-id="'+esc(id)+'"><div class="sh-h"><h2>Imprimir etiquetas</h2><button type="button" class="x" data-m="close" aria-label="Fechar">×</button></div><div class="sh-b"><div><b>'+esc(prodLabel(p))+'</b><div class="sub">Preço unitário: '+brl(p.preco)+'</div><div class="sub">EAN-13: '+esc(p.codigoBarras||'Será gerado ao salvar/imprimir')+'</div></div><label class="fld"><span>Quantidade de etiquetas</span><input id="etq-qtd" type="number" min="1" max="300" step="1" value="1" required></label><div class="hint2">Folha de teste A4, com etiquetas de 50 × 30 mm. Na impressão, selecione tamanho real/100% para conferir a escala.</div><div class="erros" id="erros"></div></div><div class="sh-f"><button type="button" class="btn ghost" data-m="close">Cancelar</button><button class="btn" type="submit">Imprimir</button></div></form>');
+  openModal('<form class="sheet sm" id="etiquetaf" data-id="'+esc(id)+'"><div class="sh-h"><h2>Imprimir etiquetas</h2><button type="button" class="x" data-m="close" aria-label="Fechar">×</button></div><div class="sh-b"><div><b>'+esc(prodLabel(p))+'</b><div class="sub">Preço unitário: '+brl(p.preco)+'</div><div class="sub">EAN-13: '+esc(p.codigoBarras||'Será gerado ao salvar/imprimir')+'</div></div><label class="fld"><span>Modelo da etiqueta</span><select id="etq-modelo"><option value="rolo">Rolo 2 colunas, 50 × 50 mm (impressora térmica)</option><option value="a4">Folha A4 com etiquetas de 50 × 30 mm (teste)</option></select></label><label class="fld"><span>Quantidade de etiquetas</span><input id="etq-qtd" type="number" min="1" max="300" step="1" value="1" required></label><div class="hint2">Na tela de impressão: escolha a impressora de etiquetas, margens “Nenhuma” e escala 100%.</div><div class="erros" id="erros"></div></div><div class="sh-f"><button type="button" class="btn ghost" data-m="close">Cancelar</button><button class="btn" type="submit">Imprimir</button></div></form>');
 }
 function ean13Svg(code){
   code=String(code||'');if(!ean13Valido(code))throw new Error('O código deste produto não é um EAN-13 válido. Edite o produto e deixe o campo vazio para gerar um código interno.');
@@ -1678,7 +1686,7 @@ function ean13Svg(code){
   return '<svg class="etiqueta-ean" viewBox="0 0 115 52" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Código de barras '+code+'"><g fill="#000" shape-rendering="crispEdges">'+bars+'</g><text x="57.5" y="51" text-anchor="middle" font-family="Arial,sans-serif" font-size="7" fill="#000">'+code+'</text></svg>';
 }
 async function imprimirEtiquetas(form){
-  var id=form.dataset.id,p=S.produtos.find(function(x){return x.id===id}),qtd=Number($('#etq-qtd').value);
+  var id=form.dataset.id,p=S.produtos.find(function(x){return x.id===id}),qtd=Number($('#etq-qtd').value),modelo=($('#etq-modelo')||{}).value==='a4'?'a4':'rolo';
   if(!p){$('#erros').textContent='Produto não encontrado.';return}
   if(!Number.isInteger(qtd)||qtd<1||qtd>300){$('#erros').textContent='Informe uma quantidade entre 1 e 300.';return}
   var btn=$('button[type="submit"]',form);if(btn)btn.disabled=true;
@@ -1686,8 +1694,8 @@ async function imprimirEtiquetas(form){
     if(!p.codigoBarras){var saved=await db.collection('produtos').doc(id).set(strip(p));p.codigoBarras=saved&&saved.codigoBarras||''}
     var svg=ean13Svg(p.codigoBarras),nome=[p.nome,p.tamanho?'Tam. '+p.tamanho:'',p.cor?'Cor '+p.cor:''].filter(Boolean).join(' · ');
     var label='<div class="etiqueta-produto"><div class="etiqueta-nome">'+esc(nome)+'</div><div class="etiqueta-sku">'+esc(p.sku||'')+'</div>'+svg+'<div class="etiqueta-preco">'+brl(p.preco)+'</div></div>';
-    var printNode=document.createElement('div');printNode.id='etiqueta-impressao';printNode.innerHTML=Array(qtd).fill(label).join('');document.body.appendChild(printNode);closeModal();document.body.classList.add('imprimindo-etiquetas');
-    try{window.print()}finally{document.body.classList.remove('imprimindo-etiquetas');printNode.remove()}
+    var printNode=document.createElement('div');printNode.id='etiqueta-impressao';printNode.innerHTML=Array(qtd).fill(label).join('');document.body.appendChild(printNode);closeModal();document.body.classList.add('imprimindo-etiquetas');if(modelo==='rolo')document.body.classList.add('etq-rolo');
+    try{window.print()}finally{document.body.classList.remove('imprimindo-etiquetas','etq-rolo');printNode.remove()}
   }catch(err){if(btn)btn.disabled=false;toast('Não foi possível gerar as etiquetas: '+(err&&err.message||err))}
 }
 function imprimirRecibo(id,draft){
